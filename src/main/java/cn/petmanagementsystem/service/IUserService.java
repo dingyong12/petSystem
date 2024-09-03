@@ -1,6 +1,7 @@
 package cn.petmanagementsystem.service;
 
 import cn.petmanagementsystem.domain.User;
+import cn.petmanagementsystem.domain.common.Pager;
 
 public interface IUserService {
 
@@ -9,4 +10,6 @@ public interface IUserService {
     String register(User user);
 
     Integer deleteUser(Integer userId);
+
+    Pager<User> getUserList(String accountName, Integer status, String phone, Integer page, Integer offset);
 }

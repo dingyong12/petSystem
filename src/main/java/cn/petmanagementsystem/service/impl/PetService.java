@@ -28,6 +28,10 @@ public class PetService implements IPetService {
     public Pager<Pet> queryPetList(PetVo petVo) {
         Page<Object> page = PageHelper.startPage(petVo.getPageNum(), petVo.getOffset(), true);
         List<Pet> pets = petMapper.queryPetList(petVo);
+        pets.forEach(pet -> {
+            pet.setGenderName(pet.getGender() == 0 ? "公" : "母");
+            pet.setAdoptStatusName(pet.getAdoptStatus() == 0 ? "未领养" : "已领养");
+        });
         Pager<Pet> result = new Pager<>();
         result.setPage(petVo.getPageNum());
         result.setTotal(page.getTotal());

@@ -12,20 +12,20 @@
             (#{name}, #{petTypeId}, #{picture}, #{gender})
     </insert>
     <select id="queryPetList" resultType="cn.petmanagementsystem.domain.Pet">
-        select * from pet
+        select p.*,pt.type_name as petTypeName from pet p left join pet_type pt on p.pet_type_id = pt.id
         <where>
             <if test="name != null and name != ''">
-                and name like concat('%', #{name}, '%')
+                and p.name like concat('%', #{name}, '%')
             </if>
 
             <if test="gender != null and gender != ''">
-                and gender = #{gender}
+                and p.gender = #{gender}
             </if>
             <if test="petTypeId != null and petTypeId != ''">
-                and pet_type_id = #{petTypeId}
+                and p.pet_type_id = #{petTypeId}
             </if>
             <if test="adoptStatus != null and adoptStatus != ''">
-                and adopt_status = #{adoptStatus}
+                and p.adopt_status = #{adoptStatus}
             </if>
         </where>
     </select>

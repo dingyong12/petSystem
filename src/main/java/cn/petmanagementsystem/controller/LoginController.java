@@ -3,9 +3,9 @@ package cn.petmanagementsystem.controller;
 
 import cn.petmanagementsystem.domain.User;
 import cn.petmanagementsystem.service.IUserService;
-import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +40,22 @@ public class LoginController {
         session.removeAttribute("user");
         return "redirect:/login";
     }
+
+    @GetMapping("/userManagement")
+    public String userManagement() {
+        return "userManagement";
+    }
+
+    @GetMapping("/petManagement")
+    public String petManagement() {
+        return "petManagement";
+    }
+
+    @GetMapping("/adoptionManagement")
+    public String adoptionManagement() {
+        return "adoptionManagement";
+    }
+
 
     @PostMapping("/login/user")
     public String login(@RequestParam String username, @RequestParam String password, HttpSession session) {

@@ -22,4 +22,19 @@
           and password = #{password}
           and status = 1
     </select>
+    <select id="getUserList" resultType="cn.petmanagementsystem.domain.User">
+        select *
+        from user
+        <where>
+            <if test="accountName != null and accountName != ''">
+                and account_name like concat('%',#{accountName},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -19,6 +19,18 @@ public class PetVo {
     // 数量
     private Integer offset;
 
+    public PetVo() {
+    }
+
+    public PetVo(Integer petTypeId, String name, Integer gender, Integer adoptStatus, Integer pageNum, Integer offset) {
+        this.petTypeId = petTypeId;
+        this.name = name;
+        this.gender = gender;
+        this.adoptStatus = adoptStatus;
+        this.pageNum = pageNum;
+        this.offset = offset;
+    }
+
     public Integer getPetTypeId() {
         return petTypeId;
     }

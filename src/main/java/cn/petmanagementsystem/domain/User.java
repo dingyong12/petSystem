@@ -37,7 +37,7 @@ public class User {
     private Integer authority;
 
     //状态 0 禁用 1 启用
-    private Integer status;
+    private Boolean status;
 
 
 
@@ -89,11 +89,11 @@ public class User {
         this.authority = authority;
     }
 
-    public Integer getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 }

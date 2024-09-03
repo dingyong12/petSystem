@@ -1,9 +1,5 @@
 package cn.petmanagementsystem.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.LocalDateTime;
-
 public class Pet {
     private Integer id;
 
@@ -20,11 +16,40 @@ public class Pet {
     private String picture;
 
     // 创建时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
+    private String createTime;
 
     //领养状态 0 未领养 1 已领养
     private Integer adoptStatus;
+
+    private String genderName;
+
+    private String petTypeName;
+
+    private String adoptStatusName;
+
+    public String getGenderName() {
+        return genderName;
+    }
+
+    public void setGenderName(String genderName) {
+        this.genderName = genderName;
+    }
+
+    public String getPetTypeName() {
+        return petTypeName;
+    }
+
+    public void setPetTypeName(String petTypeName) {
+        this.petTypeName = petTypeName;
+    }
+
+    public String getAdoptStatusName() {
+        return adoptStatusName;
+    }
+
+    public void setAdoptStatusName(String adoptStatusName) {
+        this.adoptStatusName = adoptStatusName;
+    }
 
     public Integer getId() {
         return id;
@@ -66,11 +91,11 @@ public class Pet {
         this.picture = picture;
     }
 
-    public LocalDateTime getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 

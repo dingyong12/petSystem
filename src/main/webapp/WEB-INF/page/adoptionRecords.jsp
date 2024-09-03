@@ -62,16 +62,6 @@
         .logout-button:hover {
             color: #ddd;
         }
-
-        .hidden {
-            display: none;
-        }
-
-        iframe {
-            width: 100%;
-            height: calc(100vh - 60px); /* 根据 header 高度调整 */
-            border: none;
-        }
     </style>
 </head>
 <body>
@@ -79,21 +69,9 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>管理系统</h2>
-        <c:if test="${not empty sessionScope.user}">
-            <c:choose>
-                <c:when test="${sessionScope.user.authority eq 1}">
-                    <!-- Admin Menu -->
-                    <a href="userManagement">用户管理</a>
-                    <a href="petManagement">待领养宠物</a>
-                    <a href="adoptionRecords">领养记录管理</a>
-                </c:when>
-                <c:when test="${sessionScope.user.authority eq 0}">
-                    <!-- Manager Menu -->
-                    <a href="petManagement">待领养宠物</a>
-                    <a href="petManagement">领养条款</a>
-                </c:when>
-            </c:choose>
-        </c:if>
+        <a href="userManagement">用户管理</a>
+        <a href="petManagement">宠物管理</a>
+        <a href="adoptionRecords">领养记录管理</a>
     </div>
 
     <!-- Main content -->
@@ -113,32 +91,7 @@
         </div>
         <h1>欢迎来到宠物领养管理系统</h1>
         <p>请选择左侧的管理模块进行操作。</p>
-
-
-        <!-- Embedded content -->
-        <iframe id="contentFrame"></iframe>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // 获取所有菜单链接
-        const links = document.querySelectorAll('.sidebar a');
-        const iframe = document.getElementById('contentFrame');
-        const h1 = document.querySelector('h1');
-        const p = document.querySelector('p');
-
-        links.forEach(link => {
-            link.addEventListener('click', function (event) {
-                event.preventDefault(); // 阻止默认链接跳转行为
-                const href = this.getAttribute('href'); // 获取链接的 href 属性值
-                iframe.src = href; // 更新 iframe 的 src 属性
-
-                h1.classList.add('hidden');
-                p.classList.add('hidden');
-            });
-        });
-    });
-</script>
 </body>
 </html>

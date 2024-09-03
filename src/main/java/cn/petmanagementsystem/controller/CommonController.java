@@ -1,10 +1,12 @@
 package cn.petmanagementsystem.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -13,6 +15,7 @@ import java.nio.file.Paths;
 public class CommonController {
 
     private static final String UPLOAD_DIR = "uploads/";
+
 
     @RequestMapping("/picUpload")
     public String picUpload(@RequestParam("file") MultipartFile file) {
