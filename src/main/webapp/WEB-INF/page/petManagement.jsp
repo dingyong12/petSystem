@@ -75,7 +75,6 @@
 </head>
 <body>
 <div class="container">
-    <h1>待领养宠物</h1>
     <form class="filter-form" id="filterForm" action="getPetList" method="get">
         <!-- Hidden fields to keep track of pagination -->
         <input type="hidden" name="pageNum" value="${param.pageNum != null ? param.pageNum : 1}">

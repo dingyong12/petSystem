@@ -114,8 +114,6 @@
 </head>
 <body>
 <div class="container">
-    <h1>用户管理</h1>
-
     <!-- Filter form -->
     <form class="filter-form" id="filterForm" action="getUserList" method="get">
         <!-- Hidden fields to keep track of pagination -->

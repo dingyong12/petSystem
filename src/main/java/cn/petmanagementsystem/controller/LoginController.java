@@ -56,6 +56,11 @@ public class LoginController {
         return "adoptionManagement";
     }
 
+    @GetMapping("/adoptionTerms")
+    public String adoptionTerms() {
+        return "adoptionTerms";
+    }
+
 
     @PostMapping("/login/user")
     public String login(@RequestParam String username, @RequestParam String password, HttpSession session) {
