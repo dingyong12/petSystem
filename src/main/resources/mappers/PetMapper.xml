@@ -29,4 +29,10 @@
             </if>
         </where>
     </select>
+    <select id="getPetDetail" resultType="cn.petmanagementsystem.domain.Pet">
+        select p.*, pt.type_name as petTypeName
+        from pet p
+                 left join pet_type pt on p.pet_type_id = pt.id
+        where p.id = #{id}
+    </select>
 </mapper>

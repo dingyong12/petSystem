@@ -5,159 +5,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>用户管理</title>
+    <meta charset="utf-8">
+    <title>用户信息列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//unpkg.com/layui@2.9.16/dist/css/layui.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+        /* 自定义样式，使表格的宽度更适合 */
+        .layui-table td, .layui-table th {
+            text-align: center; /* 中心对齐 */
+            white-space: nowrap; /* 防止内容换行 */
+            overflow: hidden; /* 内容溢出隐藏 */
+            text-overflow: ellipsis; /* 内容溢出显示省略号 */
         }
-
-        .container {
-            padding: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f4f4f4;
-        }
-
-        .filter-form {
-            margin-bottom: 20px;
-        }
-
-        .filter-form input, .filter-form select {
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .filter-form button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .filter-form button:hover {
-            background-color: #0056b3;
-        }
-
-        .pagination {
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .pagination a {
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            margin: 0 5px;
-            text-decoration: none;
-            color: #007bff;
-            border-radius: 4px;
-        }
-
-        .pagination a:hover {
-            background-color: #f4f4f4;
-        }
-
-        .pagination .active {
-            background-color: #007bff;
-            color: #fff;
-            border-color: #007bff;
-        }
-
-        .pagination .disabled {
-            color: #ccc;
-            pointer-events: none;
+        .layui-table {
+            width: 100%; /* 确保表格宽度占满容器 */
         }
     </style>
-
-    <script>
-        function submitPage(pageNum) {
-            var form = document.getElementById('filterForm');
-            form.pageNum.value = pageNum;
-            form.submit();
-        }
-
-        function autoSubmit() {
-            var form = document.getElementById('filterForm');
-            form.submit();
-        }
-
-        window.onload = function() {
-            if (!sessionStorage.getItem('autoSubmitted')) {
-                sessionStorage.setItem('autoSubmitted', 'true');
-                autoSubmit();
-            }
-        };
-    </script>
-
 </head>
 <body>
-<div class="container">
-    <!-- Filter form -->
-    <form class="filter-form" id="filterForm" action="getUserList" method="get">
-        <!-- Hidden fields to keep track of pagination -->
-        <input type="hidden" name="pageNum" value="${param.pageNum != null ? param.pageNum : 1}">
-        <input type="hidden" name="offset" value="${param.offset != null ? param.offset : 10}">
-        <input type="text" name="accountName" placeholder="用户名" value="${param.accountName}">
-        <select name="status">
-            <option value="-1">未选择</option>
-            <option value="0" <c:if test="${param.status == '0'}">selected</c:if>>可用</option>
-            <option value="1" <c:if test="${param.status == '1'}">selected</c:if>>不可用</option>
-        </select>
-        <input type="text" name="phone" placeholder="用户手机号" value="${param.phone}">
-        <button type="submit">筛选</button>
-    </form>
 
-    <!-- User table -->
-    <table>
-        <thead>
-        <tr>
-            <th>昵称</th>
-            <th>用户名</th>
-            <th>手机号</th>
-            <th>用户状态</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="user" items="${sessionScope.pager.rows}">
-            <tr>
-                <td>${user.name}</td>
-                <td>${user.accountName}</td>
-                <td>${user.phone}</td>
-                <td>${user.status ? '可用' : '不可用'}</td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-
-    <!-- Pagination -->
-    <div class="pagination">
-        <!-- Page Number Links -->
-        <c:forEach var="i" begin="1" end="${sessionScope.pager.total / sessionScope.pager.size + (sessionScope.pager.total % sessionScope.pager.size == 0 ? 0 : 1)}">
-            <a href="javascript:void(0);" onclick="submitPage(${i})" class="<c:if test='${i == sessionScope.pager.page}'>active</c:if>">${i}</a>
-        </c:forEach>
-    </div>
+<div style="padding: 16px;">
+    <table class="layui-hide" id="userList" lay-filter="userList"></table>
 </div>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <div class="layui-inline">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="accountName" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">手机号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="phone" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-inline">
+                <select name="status">
+                    <option value="0">无效</option>
+                    <option value="1">有效</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn" lay-submit lay-filter="search">搜索</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    </div>
+</script>
+
+<script src="//unpkg.com/layui@2.9.16/dist/layui.js"></script>
+<script>
+    layui.use(['table', 'form'], function () {
+        var table = layui.table;
+        var form = layui.form;
+
+        // 创建渲染实例
+        table.render({
+            elem: '#userList',
+            url: '/getUserList', // 实际使用时需换成真实接口
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter'],
+            height: 'full-35', // 最大高度减去其他容器已占有的高度差
+
+            cellMinWidth: 120, // 调整最小单元格宽度
+            page: true,
+            cols: [[
+                {field: 'id', fixed: 'left', width: 300, title: 'ID'},
+                {field: 'accountName', width: 400, title: '用户名'},
+                {field: 'phone', width: 450, title: '手机号'},
+                {field: 'status', width: 250, title: '用户状态'},
+                {fixed: 'right', title: '操作', width: 250, toolbar: '#barDemo'}
+            ]],
+            error: function (res, msg) {
+                console.log(res, msg);
+            }
+        });
+
+        // 监听搜索表单
+        form.on('submit(search)', function (data) {
+            table.reload('userList', {
+                where: data.field
+            });
+            return false;
+        });
+    });
+</script>
 </body>
 </html>

@@ -34,9 +34,16 @@ public class PetService implements IPetService {
         });
         Pager<Pet> result = new Pager<>();
         result.setPage(petVo.getPageNum());
-        result.setTotal(page.getTotal());
-        result.setRows(pets);
+        result.setCount(page.getTotal());
+        result.setData(pets);
         result.setSize(petVo.getOffset());
         return result;
+    }
+
+    @Override
+    public Pet getPetDetail(Integer id) {
+        Pet petDetail = petMapper.getPetDetail(id);
+        petDetail.setGenderName(petDetail.getGender() == 0 ? "公" : "母");
+        return petDetail;
     }
 }

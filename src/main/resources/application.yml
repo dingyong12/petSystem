@@ -14,7 +14,7 @@ mybatis:
 spring:
   datasource:
     username: root
-    password: 123123
+    password: 4EGu3kxnb6GArqQsHgEM
     url: jdbc:mysql://124.221.55.213:3306/pet_adopt_system?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:

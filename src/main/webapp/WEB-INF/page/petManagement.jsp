@@ -1,183 +1,152 @@
-<%@ page import="cn.petmanagementsystem.domain.Pet" %>
-<%@ page import="cn.petmanagementsystem.domain.PetType" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link href="//unpkg.com/layui@2.9.16/dist/css/layui.css" rel="stylesheet">
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>宠物管理</title>
+    <link href="//unpkg.com/layui@2.9.16/dist/css/layui.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
             margin: 0;
             padding: 0;
-            background-color: #f8f8f8;
         }
 
-        .container {
-            padding: 20px;
+        .flow-demo {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .pet-grid {
+        #pet-flow ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: center;
         }
 
-        .pet-item {
-            border: 1px solid #ddd;
+        #pet-flow li {
+            width: calc(25% - 20px);
+            box-sizing: border-box;
+            padding: 10px;
+            background-color: #fafafa;
             border-radius: 8px;
-            overflow: hidden;
-            width: 200px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: transform 0.3s;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
         }
 
-        .pet-item img {
+        #pet-flow li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #pet-flow img {
             width: 100%;
             height: auto;
+            border-radius: 8px;
             display: block;
         }
 
-        .pet-item h2 {
-            margin: 10px 0;
-            font-size: 16px;
+        p {
+            margin: 5px 0;
             color: #333;
+            line-height: 1.5;
         }
 
-        .pet-item:hover {
-            transform: scale(1.05);
+        .pet-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
         }
 
-        .pet-item a {
-            display: block;
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .pet-item a:hover {
-            text-decoration: underline;
+        .pet-details {
+            color: #666;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <form class="filter-form" id="filterForm" action="getPetList" method="get">
-        <!-- Hidden fields to keep track of pagination -->
-        <input type="hidden" name="pageNum" value="${param.pageNum != null ? param.pageNum : 1}">
-        <input type="hidden" name="offset" value="${param.offset != null ? param.offset : 10}">
-        <input type="text" name="name" placeholder="宠物名称" value="${param.name}">
-        <!-- Filter options -->
-        <select name="gender">
-            <option value="-1">所有性别</option>
-            <option value="0" <c:if test="${param.gender == 0}">selected</c:if>>公</option>
-            <option value="1" <c:if test="${param.gender == 1}">selected</c:if>>母</option>
-        </select>
 
-        <select id="petTypeSelect" name="petTypeId">
-            <option value="-1">品种未选择</option>
-        </select>
-        <select name="adoptStatus">
-            <option value="-1">领养状态未选择</option>
-            <option value="0" <c:if test="${param.adoptStatus == 0}">selected</c:if>>已领养</option>
-            <option value="1" <c:if test="${param.adoptStatus == 1}">selected</c:if>>未领养</option>
-        </select>
-        <button type="submit">筛选</button>
-    </form>
-
-    <!-- Pet grid -->
-    <div class="pet-grid" id="petGrid">
-        <!-- Pet items will be added here -->
-    </div>
+<div class="flow-demo" id="pet-flow">
+    <ul></ul>
 </div>
 
+<script src="//unpkg.com/layui@2.9.16/dist/layui.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const filterForm = document.getElementById("filterForm");
-        const petGrid = document.getElementById('petGrid');
+    layui.use(['flow', 'jquery', 'layer'], function () {
+        var flow = layui.flow;
+        var $ = layui.jquery;
+        var layer = layui.layer;
 
-        // Function to build URL with parameters
-        function buildUrl() {
-            const formData = new FormData(filterForm);
-            const queryParams = new URLSearchParams();
+        flow.load({
+            elem: '#pet-flow ul',
+            isAuto: false,
+            isLazyimg: true,
+            done: function (page, next) {
+                $.ajax({
+                    url: '/getPetList',
+                    method: 'GET',
+                    data: {page: page, limit: 8},
+                    success: function (res) {
+                        if (res.code === 0) {
+                            var lis = [];
+                            $.each(res.data, function (index, item) {
+                                lis.push(
+                                    '<li data-id="' + item.id + '">' +
+                                    '<img lay-src="' + item.picture + '">' +
+                                    '<p class="pet-name">名称：' + item.name + '</p>' +
+                                    '<p class="pet-details">性别：' + item.genderName + '</p>' +
+                                    '</li>'
+                                );
+                            });
 
-            formData.forEach((value, key) => {
-                if (value) {
-                    queryParams.append(key, value);
+                            next(lis.join(''), page < Math.ceil(res.count / 8));
+                        } else {
+                            console.error('数据加载失败');
+                        }
+                    },
+                    error: function () {
+                        console.error('网络请求失败');
+                    }
+                });
+            }
+        });
+
+        $('#pet-flow').on('click', 'li', function () {
+            var id = $(this).data('id');
+            $.ajax({
+                url: '/getPetDetail',
+                method: 'GET',
+                data: {id: id},
+                success: function (res) {
+                    var pet = res;
+                    sessionStorage.setItem('petDetail', JSON.stringify(pet));
+                    layer.open({
+                        type: 2,
+                        title: '宠物详情',
+                        area: ['500px', '730px'],
+                        skin: 'layui-layer-rim', // 加上边框
+                        content: '/petDetail',
+                    });
+
+                },
+                error: function () {
+                    console.error('网络请求失败');
                 }
             });
-            return `/getPetList?${queryParams.toString()}`;
-        }
-
-        // Fetch pets when page loads
-        function fetchPets() {
-            fetch(buildUrl())
-                .then(response => response.json())
-                .then(pets => {
-                    console.log("Fetched pets:", pets); // 添加调试信息
-                    if (Array.isArray(pets)) {
-                        // Clear existing pet items
-                        petGrid.innerHTML = '';
-
-                        pets.forEach(pet => {
-                            console.log(pet);
-
-                            // Create pet item element
-                            const petItem = document.createElement('div');
-                            petItem.className = 'pet-item';
-
-                            // Create pet link
-                            const petLink = document.createElement('a');
-                            petLink.href = `petDetail?petId=${pet.id}`;
-
-                            // Create pet image
-                            const petImage = document.createElement('img');
-                            petImage.src = pet.picture;
-                            petImage.alt = pet.name;
-
-                            // Create pet name
-                            const petName = document.createElement('h2');
-                            petName.textContent = pet.name;
-
-                            // Append elements to pet link
-                            petLink.appendChild(petImage);
-                            petLink.appendChild(petName);
-
-                            // Append pet link to pet item
-                            petItem.appendChild(petLink);
-
-                            // Append pet item to pet grid
-                            petGrid.appendChild(petItem);
-                        });
-                    } else {
-                        console.error("Pets data is not an array:", pets);
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        // Fetch pets initially
-        fetchPets();
-
-        // Handle form submission
-        filterForm.addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent default form submission
-            fetchPets(); // Fetch pets based on the current filter parameters
         });
     });
 </script>
+
 </body>
 </html>

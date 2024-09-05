@@ -5,8 +5,9 @@ import java.util.List;
 public class Pager<T> {
     private int page;//分页起始页
     private int size;//每页记录数
-    private List<T> rows;//返回的记录集合
-    private long total;//总记录条数
+    private List<T> data;//返回的记录集合
+    private long count;//总记录条数
+    private Integer code = 0;
 
     public int getPage() {
         return page;
@@ -15,11 +16,11 @@ public class Pager<T> {
     public Pager() {
     }
 
-    public Pager(int page, int size, List<T> rows, long total) {
+    public Pager(int page, int size, List<T> data, long count) {
         this.page = page;
         this.size = size;
-        this.rows = rows;
-        this.total = total;
+        this.data = data;
+        this.count = count;
     }
 
     public void setPage(int page) {
@@ -34,19 +35,27 @@ public class Pager<T> {
         this.size = size;
     }
 
-    public List<T> getRows() {
-        return rows;
+    public Integer getCode() {
+        return code;
     }
 
-    public void setRows(List<T> rows) {
-        this.rows = rows;
+    public void setCode(Integer code) {
+        this.code = code;
     }
 
-    public long getTotal() {
-        return total;
+    public List<T> getData() {
+        return data;
     }
 
-    public void setTotal(long total) {
-        this.total = total;
+    public void setData(List<T> data) {
+        this.data = data;
+    }
+
+    public long getCount() {
+        return count;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
     }
 }

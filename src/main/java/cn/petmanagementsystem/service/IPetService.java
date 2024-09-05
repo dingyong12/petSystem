@@ -8,4 +8,6 @@ public interface IPetService {
     Integer addPet(Pet pet);
 
     Pager<Pet> queryPetList(PetVo petVo);
+
+    Pet getPetDetail(Integer id);
 }

@@ -6,130 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <title>宠物领养管理系统</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/layui/css/layui.css" media="all">
-    <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
+    <!-- 引入 layui.css -->
+    <link href="//unpkg.com/layui@2.9.16/dist/css/layui.css" rel="stylesheet">
+    <!-- 引入 layui.js -->
+    <script src="//unpkg.com/layui@2.9.16/dist/layui.js"></script>
     <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #e3f2fd; /* 更加温暖的背景颜色 */
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        .banner {
-            text-align: center; /* 使Banner居中 */
-            margin-bottom: 10px;
-        }
-
-        .banner img {
-            max-width: 100%; /* 保持图片在容器内 */
-            height: auto;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #f44336; /* 红色主色调 */
-            color: #ffffff;
-            padding: 0 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .header .logo {
-            font-size: 24px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-
-        .header .logo img {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-        }
-
-        .header .nav {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            width: 80%;
-        }
-
-        .header .nav-item {
-        }
-
-        .header .nav-item a {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 15px;
-            display: block;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        .header .nav-item a:hover,
-        .header .nav-item a.active {
-            background-color: #fb8c00; /* 橙色悬停效果或选中效果 */
-        }
-
-        .header .nav-item .sub-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: #fb8c00; /* 橙色子菜单背景 */
-            border-radius: 4px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-
-        .header .nav-item:hover .sub-menu {
-            display: block;
-        }
-
-        .header .sub-menu a {
-            color: #ffffff;
-            padding: 10px 20px;
-        }
-
-        .header .sub-menu a:hover {
-            background-color: #ef6c00; /* 橙色子菜单悬停效果 */
-        }
-
-        .header .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-left: auto; /* 将用户信息区域对齐到右侧 */
-        }
-
-        .header .user-info span {
-            font-size: 18px; /* 增大字体尺寸 */
-            font-weight: 500; /* 设置字体粗细 */
-        }
-
-        .header .logout-button {
-            background-color: #ff5722; /* 橙色背景按钮 */
-            border: none;
-            color: #ffffff;
-            font-size: 16px;
-            cursor: pointer;
-            padding: 8px 16px; /* 增加内边距 */
-            border-radius: 4px; /* 圆角按钮 */
-            transition: background-color 0.3s, color 0.3s; /* 添加过渡效果 */
-        }
-
-        .header .logout-button:hover {
-            background-color: #e64a19; /* 悬停时的背景颜色 */
-            color: #ffffff; /* 悬停时字体颜色 */
-        }
 
         .main-content {
             flex: 1;
@@ -139,79 +20,78 @@
 
         iframe {
             width: 100%;
-            height: calc(100vh - 80px);
+            height: calc(100vh - 150px); /* 150px 是 header 和 footer 的总高度 */
             border: none;
-        }
-
-        .footer {
-            background-color: #f44336; /* 与header一致的颜色 */
-            color: #ffffff;
-            text-align: center;
-            padding: 10px 0;
-            position: relative;
         }
     </style>
 </head>
 <body>
+
 <div class="container">
-    <div class="banner">
-        <img src="${pageContext.request.contextPath}/pic/adoption-logo.png" alt="Banner Image">
-    </div>
+    <c:if test="${empty sessionScope.user}">
+        <c:redirect url="login"/>
+    </c:if>
+    <%
+        User user = (User) session.getAttribute("user");
+    %>
     <!-- Header -->
-    <div class="header">
-        <div class="nav">
-            <c:if test="${not empty sessionScope.user}">
-            <c:choose>
-            <c:when test="${sessionScope.user.authority eq 1}">
-                <!-- Admin Menu -->
-                <div class="nav-item">
-                    <a href="userManagement">用户管理</a>
-                </div>
-                <div class="nav-item">
-                    <a href="petManagement">待领养宠物</a>
-                </div>
-                <div class="nav-item">
-                    <a href="adoptionRecords">领养记录管理</a>
-                </div>
-                <div class="nav-item">
-                    <a href="adoptionTerms">领养条款</a>
-                </div>
-            </c:when>
-            <c:when test="${sessionScope.user.authority eq 0}">
-            <!-- Manager Menu -->
-            <div class="nav-item">
-                <a href="petManagement">待领养宠物</a>
-            </div>
-            <div class="nav-item">
-                <a href="adoptionTerms">领养条款</a>
-            </div>
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo layui-hide-xs layui-bg-black">宠物领养平台</div>
+            <!-- 头部区域（可配合layui 已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left">
+                <!-- 移动端显示 -->
+                <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+                    <i class="layui-icon layui-icon-spread-left"></i>
+                </li>
+                <c:if test="${not empty sessionScope.user}">
+                    <c:choose>
+                        <c:when test="${sessionScope.user.authority eq 1}">
+                            <li class="layui-nav-item layui-hide-xs"><a href="userManagement">用户管理</a></li>
+                            <li class="layui-nav-item layui-hide-xs"><a href="petManagement">待领养宠物</a></li>
+                            <li class="layui-nav-item layui-hide-xs"><a href="adoptionManagement">领养记录管理</a></li>
+                            <li class="layui-nav-item layui-hide-xs"><a href="forum">论坛</a></li>
+                            <li class="layui-nav-item layui-hide-xs"><a href="adoptionTerms">领养条款</a></li>
+                        </c:when>
+                        <c:when test="${sessionScope.user.authority eq 0}">
+                            <li class="layui-nav-item layui-hide-xs"><a href="petManagement">待领养宠物</a></li>
+                            <li class="layui-nav-item layui-hide-xs"><a href="forum">论坛</a></li>
+                            <li class="layui-nav-item layui-hide-xs"><a href="adoptionTerms">领养条款</a></li>
+                        </c:when>
+                    </c:choose>
+                </c:if>
+
+            </ul>
+            <ul class="layui-nav layui-layout-right" style="display: inline">
+                <li class="layui-nav-item layui-hide layui-show-sm-inline-block">
+                    <a href="javascript:;">
+                        <img src="//unpkg.com/outeres@0.0.10/img/layui/icon-v2.png" class="layui-nav-img">
+                        <%=user.getName()%>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">个人信息</a></dd>
+                        <dd><a href="logout">登出</a></dd>
+                    </dl>
+                </li>
+            </ul>
         </div>
-        </c:when>
-        </c:choose>
-        </c:if>
-    </div>
-    <div class="user-info">
-        <c:if test="${empty sessionScope.user}">
-            <c:redirect url="login"/>
-        </c:if>
-        <%
-            User user = (User) session.getAttribute("user");
-        %>
-        <span>欢迎, <%= user.getName() %>!</span>
-        <form action="logout" method="get" style="display: inline;">
-            <button type="submit" class="logout-button">退出</button>
-        </form>
     </div>
 </div>
 
+<div id="contentArea" class="main-content">
+    <!-- 这里将加载内容 -->
+    <div id="content"></div>
+</div>
 <!-- Main content -->
-<div class="main-content">
-    <iframe id="contentFrame"></iframe>
+<div id="contentArea" class="main-content">
+    <!-- Main content -->
+    <iframe id="contentFrame" src="petManagement"></iframe>
 </div>
 <!-- Footer -->
-<div class="footer">
-    <p>© 2024 宠物领养管理系统 | 关爱每一个小生命</p>
-</div>
+<%--<div class="layui-footer">--%>
+<%--    <!-- 底部固定区域 -->--%>
+<%--    <p>© 2024 宠物领养管理系统 | 关爱每一个小生命</p>--%>
+<%--</div>--%>
 
 <script>
     layui.use('element', function () {
@@ -219,7 +99,7 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-        const links = document.querySelectorAll('.nav-item a');
+        const links = document.querySelectorAll('.layui-nav-item a');
         const iframe = document.getElementById('contentFrame');
 
         links.forEach(link => {
@@ -229,15 +109,6 @@
             });
         });
     });
-
-    window.onload = function () {
-        var userInfo = document.querySelector('.user-info span');
-        const iframe = document.getElementById('contentFrame');
-        if (userInfo) {
-            // 如果用户信息存在，自动重定向到 petManagement 页面
-            iframe.src = "petManagement";
-        }
-    };
 </script>
 </body>
 </html>

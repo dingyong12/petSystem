@@ -61,6 +61,11 @@ public class LoginController {
         return "adoptionTerms";
     }
 
+    @GetMapping("/forum")
+    public String forum() {
+        return "forum";
+    }
+
 
     @PostMapping("/login/user")
     public String login(@RequestParam String username, @RequestParam String password, HttpSession session) {
