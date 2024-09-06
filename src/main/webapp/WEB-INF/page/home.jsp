@@ -23,6 +23,16 @@
             height: calc(100vh - 150px); /* 150px 是 header 和 footer 的总高度 */
             border: none;
         }
+
+        .layui-footer {
+            background-color: #f2f2f2;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
@@ -78,7 +88,7 @@
     </div>
 </div>
 
-<div id="contentArea" class="main-content">
+<div id="contentDemo" class="main-content">
     <!-- 这里将加载内容 -->
     <div id="content"></div>
 </div>
@@ -88,10 +98,10 @@
     <iframe id="contentFrame" src="petManagement"></iframe>
 </div>
 <!-- Footer -->
-<%--<div class="layui-footer">--%>
-<%--    <!-- 底部固定区域 -->--%>
-<%--    <p>© 2024 宠物领养管理系统 | 关爱每一个小生命</p>--%>
-<%--</div>--%>
+<div class="layui-footer">
+    <!-- 底部固定区域 -->
+    <p>© 2024 宠物领养管理系统 | 关爱每一个小生命</p>
+</div>
 
 <script>
     layui.use('element', function () {

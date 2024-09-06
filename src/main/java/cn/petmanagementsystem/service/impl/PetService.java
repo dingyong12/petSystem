@@ -18,6 +18,11 @@ public class PetService implements IPetService {
     @Autowired
     private PetMapper petMapper;
 
+    private String girlPetPic = " https://www.pethaven.com.hk/catalog/adoption/icons/adoption-icons/girl.svg";
+    private String boyPetPic = "https://www.pethaven.com.hk/catalog/adoption/icons/adoption-icons/boy.svg";
+    private String catPic = "https://www.pethaven.com.hk/catalog/adoption/icons/adoption-icons/cat-icon.svg";
+    private String dogPic = "https://www.pethaven.com.hk/catalog/adoption/icons/adoption-icons/dog-icon.svg";
+
 
     @Override
     public Integer addPet(Pet pet) {
@@ -31,6 +36,8 @@ public class PetService implements IPetService {
         pets.forEach(pet -> {
             pet.setGenderName(pet.getGender() == 0 ? "公" : "母");
             pet.setAdoptStatusName(pet.getAdoptStatus() == 0 ? "未领养" : "已领养");
+            pet.setGenderPic(pet.getGender() == 0 ? boyPetPic : girlPetPic);
+            pet.setPetPic(pet.getPetType() == 0 ? dogPic : catPic);
         });
         Pager<Pet> result = new Pager<>();
         result.setPage(petVo.getPageNum());

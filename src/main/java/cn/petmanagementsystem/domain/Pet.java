@@ -21,11 +21,63 @@ public class Pet {
     //领养状态 0 未领养 1 已领养
     private Integer adoptStatus;
 
+    private String petDescription;
+
     private String genderName;
 
     private String petTypeName;
 
     private String adoptStatusName;
+
+    //物种
+    private Integer petType;
+    //物种名称
+    private String petSpeciesName;
+
+    private String petPic;
+
+    private String genderPic;
+
+
+    public String getPetDescription() {
+        return petDescription;
+    }
+
+    public void setPetDescription(String petDescription) {
+        this.petDescription = petDescription;
+    }
+
+    public String getPetPic() {
+        return petPic;
+    }
+
+    public void setPetPic(String petPic) {
+        this.petPic = petPic;
+    }
+
+    public String getGenderPic() {
+        return genderPic;
+    }
+
+    public void setGenderPic(String genderPic) {
+        this.genderPic = genderPic;
+    }
+
+    public Integer getPetType() {
+        return petType;
+    }
+
+    public void setPetType(Integer petType) {
+        this.petType = petType;
+    }
+
+    public String getPetSpeciesName() {
+        return petSpeciesName;
+    }
+
+    public void setPetSpeciesName(String petSpeciesName) {
+        this.petSpeciesName = petSpeciesName;
+    }
 
     public String getGenderName() {
         return genderName;
