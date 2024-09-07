@@ -1,15 +1,14 @@
 package cn.petmanagementsystem;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
 
 @SpringBootApplication
-public class PetManagementSystemApplication extends SpringBootServletInitializer {
+public class PetManagementSystemApplication {
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(PetManagementSystemApplication.class);
+    public static void main(String[] args) {
+        SpringApplication.run(PetManagementSystemApplication.class, args);
     }
 
 }

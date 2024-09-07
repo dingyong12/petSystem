@@ -33,13 +33,32 @@ public class User {
 
     private String password;
 
+    private String address;
+
     //权限 0 普通用户 1 管理员
     private Integer authority;
 
     //状态 0 禁用 1 启用
     private Boolean status;
 
+    private String statusStr;
 
+
+    public String getStatusStr() {
+        return statusStr;
+    }
+
+    public void setStatusStr(String statusStr) {
+        this.statusStr = statusStr;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getName() {
         return name;

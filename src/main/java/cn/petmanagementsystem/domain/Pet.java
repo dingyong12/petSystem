@@ -21,6 +21,8 @@ public class Pet {
     //领养状态 0 未领养 1 已领养
     private Integer adoptStatus;
 
+    private String adoptAddress;
+
     private String petDescription;
 
     private String genderName;
@@ -38,6 +40,13 @@ public class Pet {
 
     private String genderPic;
 
+    public String getAdoptAddress() {
+        return adoptAddress;
+    }
+
+    public void setAdoptAddress(String adoptAddress) {
+        this.adoptAddress = adoptAddress;
+    }
 
     public String getPetDescription() {
         return petDescription;

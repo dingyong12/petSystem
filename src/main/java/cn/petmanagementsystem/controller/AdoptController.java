@@ -1,17 +1,13 @@
 package cn.petmanagementsystem.controller;
 
-import cn.petmanagementsystem.domain.Adopt;
+import cn.petmanagementsystem.common.Result;
+import cn.petmanagementsystem.domain.AdoptDto;
 import cn.petmanagementsystem.domain.common.Pager;
-import cn.petmanagementsystem.domain.vo.AdoptListVo;
 import cn.petmanagementsystem.domain.vo.AdoptPetVo;
 import cn.petmanagementsystem.service.IAdoptService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/adopt")
 @RestController
 public class AdoptController {
 
@@ -22,19 +18,34 @@ public class AdoptController {
     /**
      * 查看领养记录
      *
-     * @param vo
+     * @param
      * @return
      */
-    @PostMapping("/queryAdoptList")
-    public Pager<Adopt> queryAdoptList(@RequestBody AdoptListVo vo) {
-        return adoptService.queryAdoptList(vo);
+    @GetMapping("/getAdoptionList")
+    public Pager<AdoptDto> queryAdoptList(@RequestParam(required = false) String userName,
+                                          @RequestParam(defaultValue = "-1") Integer adoptMethod,
+                                          @RequestParam(required = false) String phone,
+                                          @RequestParam(required = false) String petName,
+                                          @RequestParam Integer page,
+                                          @RequestParam Integer limit) {
+        if (adoptMethod == -1) {
+            adoptMethod = null;
+        }
+        return adoptService.queryAdoptList(userName, adoptMethod, phone, petName, page, limit);
     }
 
     /**
      * 认领操作
      */
     @PostMapping("/adoptPet")
-    public Integer adoptPet(@RequestBody AdoptPetVo vo) {
-        return adoptService.adoptPet(vo);
+    public Result adoptPet(@RequestBody AdoptPetVo vo) {
+        if (vo.getPickupAddress() != null && !vo.getPickupAddress().isEmpty()) {
+            vo.setAddress(vo.getPickupAddress());
+        }
+        if (vo.getUserAddress() != null && !vo.getUserAddress().isEmpty()) {
+            vo.setAddress(vo.getUserAddress());
+        }
+        adoptService.adoptPet(vo);
+        return Result.success("领养提交成功,等待审批");
     }
 }

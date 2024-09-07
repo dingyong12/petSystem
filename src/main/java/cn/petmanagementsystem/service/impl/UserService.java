@@ -4,7 +4,8 @@ import cn.petmanagementsystem.domain.User;
 import cn.petmanagementsystem.domain.common.Pager;
 import cn.petmanagementsystem.mapper.UserMapper;
 import cn.petmanagementsystem.service.IUserService;
-import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,9 +39,11 @@ public class UserService implements IUserService {
 
     @Override
     public Pager<User> getUserList(String accountName, Integer status, String phone, Integer pageNum, Integer offset) {
-//        PageHelper.startPage(pageNum, offset);
+        Page<Object> page = PageHelper.startPage(pageNum, offset, true);
         List<User> userList = userMapper.getUserList(accountName, status, phone);
-        PageInfo<User> pageInfo = new PageInfo<>(userList);
-        return new Pager<>(pageNum, offset, userList, pageInfo.getTotal());
+        for (User user : userList) {
+            user.setStatusStr(user.getStatus() ? "正常" : "禁用");
+        }
+        return new Pager<>(pageNum, offset, userList, page.getTotal());
     }
 }

@@ -1,12 +1,11 @@
 package cn.petmanagementsystem.service;
 
-import cn.petmanagementsystem.domain.Adopt;
+import cn.petmanagementsystem.domain.AdoptDto;
 import cn.petmanagementsystem.domain.common.Pager;
-import cn.petmanagementsystem.domain.vo.AdoptListVo;
 import cn.petmanagementsystem.domain.vo.AdoptPetVo;
 
 public interface IAdoptService {
-    Pager<Adopt> queryAdoptList(AdoptListVo vo);
+    Pager<AdoptDto> queryAdoptList(String userName, Integer adoptMethod, String phone, String petName, Integer page, Integer limit);
 
     Integer adoptPet(AdoptPetVo vo);
 }

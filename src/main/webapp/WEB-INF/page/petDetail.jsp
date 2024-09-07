@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>宠物详情</title>
-    <!-- 引入layui CSS -->
-    <link href="//unpkg.com/layui@2.9.16/dist/css/layui.css" rel="stylesheet">
+    <!-- 引入 layui CSS -->
+    <link href="${pageContext.request.contextPath}/layui/css/layui.css" rel="stylesheet">
     <!-- 引入 layui.js -->
-    <script src="//unpkg.com/layui@2.9.16/dist/layui.js"></script>
+    <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
     <style>
         body {
             background-color: #f0f2f5;
@@ -126,9 +126,9 @@
         layui.use('layer', function () {
             var layer = layui.layer;
             layer.open({
-                type: 1, // iframe 类型
+                type: 2, // iframe 类型
                 area: ['100%', '100%'], // 弹窗宽高
-                content: ['redirectAddPet', 'no'] // iframe 的 URL
+                content: ['redirectAdoptPet'] // iframe 的 URL
             });
         });
     });

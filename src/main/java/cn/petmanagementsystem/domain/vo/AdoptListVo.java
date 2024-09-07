@@ -13,6 +13,8 @@ public class AdoptListVo {
 
     private String petName;
 
+    private String userName;
+
 
     // 页码
     private Integer pageNum;
@@ -20,6 +22,23 @@ public class AdoptListVo {
     // 数量
     private Integer offset;
 
+    public AdoptListVo() {
+    }
+
+    public AdoptListVo(String userName, String phone, Integer adoptMethod, String petName) {
+        this.userName = userName;
+        this.phone = phone;
+        this.adoptMethod = adoptMethod;
+        this.petName = petName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getPetName() {
         return petName;

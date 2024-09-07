@@ -6,23 +6,27 @@
 <mapper namespace="cn.petmanagementsystem.mapper.AdoptMapper">
     <insert id="adoptPet">
         insert into adopt
-            (pet_id, user_id, adopt_method)
-        values (#{pet_id}, #{user_id}, #{adopt_method})
+            (pet_id, user_id, adopt_method, address)
+        values (#{petId}, #{userId}, #{adoptMethod}, #{address})
     </insert>
 
 
-    <select id="queryAdoptList" resultType="cn.petmanagementsystem.domain.Adopt">
-        select a.*,u.phone,p.name from adopt a left join pet p on a.pet_id = p.id
+    <select id="queryAdoptList" resultType="cn.petmanagementsystem.domain.AdoptDto">
+        select a.*,u.phone,u.account_name as userName,p.name as
+        petName from adopt a left join pet p on a.pet_id = p.id
         left join user u on a.user_id = u.id
         <where>
             <if test="petName != null and petName != ''">
-                and p.name like concat('%',#{p.name},'%')
+                and p.name like concat('%',#{petName},'%')
             </if>
             <if test="phone != null and phone != ''">
-                and u.phone = #{u.phone}
+                and u.phone = #{phone}
             </if>
-            <if test="adopt_method != null and adopt_method != ''">
-                and adopt_method = #{adopt_method}
+            <if test="adoptMethod != null">
+                and adopt_method = #{adoptMethod}
+            </if>
+            <if test="userName != null and userName != ''">
+                and u.account_name like concat('%',#{userName},'%')
             </if>
         </where>
     </select>

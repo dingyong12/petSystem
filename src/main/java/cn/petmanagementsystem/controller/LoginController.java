@@ -53,7 +53,7 @@ public class LoginController {
 
     @GetMapping("/adoptionManagement")
     public String adoptionManagement() {
-        return "adoptionManagement";
+        return "adoptionRecords";
     }
 
     @GetMapping("/adoptionTerms")

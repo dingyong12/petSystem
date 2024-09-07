@@ -48,6 +48,11 @@ public class PetController {
         return "addPet";
     }
 
+    @GetMapping("/redirectAdoptPet")
+    public String adoptPet() {
+        return "adoptPet";
+    }
+
     @GetMapping("/getPetList")
     @ResponseBody
     public Pager<Pet> queryPetList(@RequestParam(defaultValue = "-1") Integer petTypeId,

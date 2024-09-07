@@ -16,10 +16,10 @@ public class UserController {
 
     @GetMapping("/getUserList")
     public Pager<User> getUserList(@RequestParam(required = false) String accountName,
-                             @RequestParam(defaultValue = "-1") Integer status,
-                             @RequestParam(required = false) String phone,
-                             @RequestParam Integer page,
-                             @RequestParam Integer limit) {
+                                   @RequestParam(defaultValue = "-1") Integer status,
+                                   @RequestParam(required = false) String phone,
+                                   @RequestParam Integer page,
+                                   @RequestParam Integer limit) {
         if (status == -1) {
             status = null;
         }

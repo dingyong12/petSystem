@@ -1,3 +1,4 @@
+<%@ page import="cn.petmanagementsystem.domain.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -5,9 +6,9 @@
     <meta charset="UTF-8">
     <title>添加宠物</title>
     <!-- 引入 layui CSS -->
-    <link href="//unpkg.com/layui@2.9.16/dist/css/layui.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/layui/css/layui.css" rel="stylesheet">
     <!-- 引入 layui.js -->
-    <script src="//unpkg.com/layui@2.9.16/dist/layui.js"></script>
+    <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
     <style>
         .layui-form {
             padding: 20px;
@@ -55,6 +56,12 @@
     </style>
 </head>
 <body>
+<c:if test="${empty sessionScope.user}">
+    <c:redirect url="login"/>
+</c:if>
+<%
+    User user = (User) session.getAttribute("user");
+%>
 <div class="layui-form">
     <div class="layui-form-item">
         <label class="layui-form-label">宠物图片</label>
@@ -88,6 +95,12 @@
         <label class="layui-form-label">简介</label>
         <div class="layui-input-block">
             <textarea name="petDescription" placeholder="请输入宠物简介" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">自提地址</label>
+        <div class="layui-input-block">
+            <textarea name="petAddress" class="layui-textarea"><%= user.getAddress() %></textarea>
         </div>
     </div>
     <div class="layui-form-item">

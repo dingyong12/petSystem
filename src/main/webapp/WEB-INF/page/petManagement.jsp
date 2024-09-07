@@ -2,7 +2,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<link href="//unpkg.com/layui@2.9.16/dist/css/layui.css" rel="stylesheet">
+<!-- 引入 layui CSS -->
+<link href="${pageContext.request.contextPath}/layui/css/layui.css" rel="stylesheet">
+<!-- 引入 layui.js -->
+<script src="${pageContext.request.contextPath}/layui/layui.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -165,8 +168,6 @@
     <ul></ul>
 </div>
 
-
-<script src="//unpkg.com/layui@2.9.16/dist/layui.js"></script>
 <script>
 
 
@@ -268,13 +269,13 @@
                 }
             });
         });
-        // 绑定选择领养按钮的点击事件
+        // 绑定添加宠物按钮的点击事件
         document.getElementById('addPetButton').addEventListener('click', function () {
             // 使用 layui 的 layer 模块打开弹窗
             layer.open({
                 type: 2, // iframe 类型
                 title: '添加宠物',
-                area: ['800px', '600px'], // 弹窗宽高
+                area: ['900px', '700px'], // 弹窗宽高
                 content: 'redirectAddPet' // iframe 的 URL
             });
         });

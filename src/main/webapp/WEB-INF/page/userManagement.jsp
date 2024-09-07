@@ -10,7 +10,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="//unpkg.com/layui@2.9.16/dist/css/layui.css" rel="stylesheet">
+    <!-- 引入 layui CSS -->
+    <link href="${pageContext.request.contextPath}/layui/css/layui.css" rel="stylesheet">
+    <!-- 引入 layui.js -->
+    <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
     <style>
         /* 自定义样式，使表格的宽度更适合 */
         .layui-table td, .layui-table th {
@@ -65,7 +68,6 @@
     </div>
 </script>
 
-<script src="//unpkg.com/layui@2.9.16/dist/layui.js"></script>
 <script>
     layui.use(['table', 'form'], function () {
         var table = layui.table;
@@ -85,7 +87,8 @@
                 {field: 'id', fixed: 'left', width: 300, title: 'ID'},
                 {field: 'accountName', width: 400, title: '用户名'},
                 {field: 'phone', width: 450, title: '手机号'},
-                {field: 'status', width: 250, title: '用户状态'},
+                {field: 'statusStr', width: 250, title: '用户状态'},
+                {field: 'address', width: 250, title: '地址'},
                 {fixed: 'right', title: '操作', width: 250, toolbar: '#barDemo'}
             ]],
             error: function (res, msg) {
