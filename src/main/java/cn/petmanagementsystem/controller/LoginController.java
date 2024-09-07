@@ -37,7 +37,7 @@ public class LoginController {
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.removeAttribute("user");
+        session.invalidate();
         return "redirect:/login";
     }
 
@@ -66,6 +66,16 @@ public class LoginController {
         return "forum";
     }
 
+    @GetMapping("/forumDetail")
+    public String redirectForumDetail() {
+        return "forumDetail";
+    }
+
+    @GetMapping("/addForum")
+    public String addForum() {
+        return "addForum";
+    }
+
 
     @PostMapping("/login/user")
     public String login(@RequestParam String username, @RequestParam String password, HttpSession session) {
@@ -81,9 +91,10 @@ public class LoginController {
     public String register(User user, Model model) {
         String errMsg = userService.register(user);
         if (errMsg == null) {
-            return "redirect:/login";
+            model.addAttribute("successMsg", "注册成功!");
+        } else {
+            model.addAttribute("errMsg", errMsg);
         }
-        model.addAttribute("errMsg", errMsg);
         return "register";
     }
 

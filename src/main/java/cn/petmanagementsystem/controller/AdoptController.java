@@ -2,6 +2,7 @@ package cn.petmanagementsystem.controller;
 
 import cn.petmanagementsystem.common.Result;
 import cn.petmanagementsystem.domain.AdoptDto;
+import cn.petmanagementsystem.domain.ApprovalRequest;
 import cn.petmanagementsystem.domain.common.Pager;
 import cn.petmanagementsystem.domain.vo.AdoptPetVo;
 import cn.petmanagementsystem.service.IAdoptService;
@@ -47,5 +48,14 @@ public class AdoptController {
         }
         adoptService.adoptPet(vo);
         return Result.success("领养提交成功,等待审批");
+    }
+
+    @PostMapping("/handleApproval")
+    public Result handleApproval(@RequestBody ApprovalRequest request) {
+        Integer id = request.getId();
+        Integer petId = request.getPetId();
+        Integer action = request.getAction();
+        adoptService.handleApproval(id, petId,action);
+        return Result.success("审批成功");
     }
 }

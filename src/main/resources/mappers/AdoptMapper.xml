@@ -9,6 +9,11 @@
             (pet_id, user_id, adopt_method, address)
         values (#{petId}, #{userId}, #{adoptMethod}, #{address})
     </insert>
+    <update id="handleApproval">
+        update adopt
+        set approval_status = #{action}
+        where id = #{id}
+    </update>
 
 
     <select id="queryAdoptList" resultType="cn.petmanagementsystem.domain.AdoptDto">

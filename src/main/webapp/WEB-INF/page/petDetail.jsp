@@ -99,7 +99,7 @@
             </div>
         </div>
         <!-- 选择领养按钮 -->
-        <button type="button" class="adopt-button" id="adoptButton">选择领养</button>
+        <button type="button" class="adopt-button" id="adoptButton" disabled>选择领养</button>
 
     </div>
 </div>
@@ -115,6 +115,16 @@
             document.getElementById('petName').textContent = pet.name;
             document.getElementById('petGender').textContent = pet.genderName;
             document.getElementById('petDescription').textContent = pet.petDescription;
+            // 根据领养状态设置按钮
+            var adoptButton = document.getElementById('adoptButton');
+            if (pet.adoptStatus == '1') {  // 假设 '1' 表示已领养
+                adoptButton.textContent = '已领养';
+                adoptButton.disabled = true;  // 禁用按钮
+                adoptButton.style.backgroundColor = '#ccc';  // 设置为灰色
+                adoptButton.style.cursor = 'not-allowed';    // 改变鼠标样式
+            } else {
+                adoptButton.disabled = false;  // 启用按钮
+            }
         } else {
             console.error("没有找到宠物数据");
         }

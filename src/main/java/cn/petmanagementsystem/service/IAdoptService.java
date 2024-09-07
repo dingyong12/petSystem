@@ -7,5 +7,7 @@ import cn.petmanagementsystem.domain.vo.AdoptPetVo;
 public interface IAdoptService {
     Pager<AdoptDto> queryAdoptList(String userName, Integer adoptMethod, String phone, String petName, Integer page, Integer limit);
 
-    Integer adoptPet(AdoptPetVo vo);
+    void adoptPet(AdoptPetVo vo);
+
+    void handleApproval(Integer id,Integer petId, Integer action);
 }

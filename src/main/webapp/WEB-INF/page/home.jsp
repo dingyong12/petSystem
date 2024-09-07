@@ -1,8 +1,10 @@
 <%@ page import="cn.petmanagementsystem.domain.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <title>宠物领养管理系统</title>
@@ -36,14 +38,13 @@
     </style>
 </head>
 <body>
-
+<c:if test="${empty sessionScope.user}">
+    <c:redirect url="login"/>
+</c:if>
+<%
+    User user = (User) session.getAttribute("user");
+%>
 <div class="container">
-    <c:if test="${empty sessionScope.user}">
-        <c:redirect url="login"/>
-    </c:if>
-    <%
-        User user = (User) session.getAttribute("user");
-    %>
     <!-- Header -->
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
@@ -117,6 +118,14 @@
                 event.preventDefault();
                 iframe.src = this.getAttribute('href');
             });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const logoutLink = document.querySelector('a[href="logout"]');
+        logoutLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            window.location.href = '/login'; // 登出后重定向到登录页面
         });
     });
 </script>

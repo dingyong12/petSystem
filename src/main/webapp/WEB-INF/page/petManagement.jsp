@@ -89,6 +89,23 @@
             gap: 5px;
         }
 
+        /* 让照片容器相对定位 */
+        .pet-photo {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* 确保“已领养”图标在照片的右下角 */
+        .adopted-icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px; /* 根据实际图标的尺寸调整 */
+            height: 50px; /* 根据实际图标的尺寸调整 */
+            z-index: 1; /* 确保它在照片之上显示 */
+            opacity: 0.8; /* 调整透明度，不完全遮挡照片 */
+        }
+
         .pet-details {
             color: #666;
             font-size: 14px;
@@ -187,13 +204,18 @@
                     if (res.code === 0) {
                         var lis = [];
                         $.each(res.data, function (index, item) {
+                            // 根据宠物的状态决定是否显示“已领养”图标
+                            var adoptedIcon = item.adoptStatus == '1' ? '<img class="adopted-icon" src="https://www.pethaven.com.hk/catalog/adoption/icons/adoption-icons/adopted_chi.png" />' : '';
+
                             lis.push(
                                 '<li data-id="' + item.id + '">' +
+                                '<div class="pet-photo">' +
                                 '<img lay-src="' + item.picture + '">' +
+                                adoptedIcon + // 添加“已领养”图标
+                                '</div>' +
                                 '<div class="pet-info">' +
-                                '<p class="pet-name">' + item.name + '<img class="gender-img" src="' + item.petPic + '"></p>' + // 添加图标到右侧
-                                '' +
-                                '<p class="pet-details"><img class="gender-img" src="' + item.genderPic + '"> ' + item.genderName + '</p></div>' + // 添加图标到左侧
+                                '<p class="pet-name">' + item.name + '<img class="gender-img" src="' + item.petPic + '"></p>' +
+                                '<p class="pet-details"><img class="gender-img" src="' + item.genderPic + '"> ' + item.genderName + '</p></div>' +
                                 '</li>'
                             );
                         });

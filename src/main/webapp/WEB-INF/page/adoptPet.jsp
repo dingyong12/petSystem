@@ -135,6 +135,13 @@
                 .then(result => {
                     if (result.code === 200) {
                         layer.msg('提交成功');
+                        setTimeout(function () {
+                            var index = parent.layer.getFrameIndex(window.name); // 先得到当前 iframe 层的索引
+                            parent.layer.close(index); // 再执行关闭
+                            // 跳转到指定页面并刷新
+                            window.parent.location.href = 'petDetail'; // 替换成你想跳转的页面地址
+                            window.parent.location.reload(); // 刷新页面
+                        }, 2000); // 2秒后执行
                     } else {
                         layer.msg('提交失败: ' + result.message);
                     }

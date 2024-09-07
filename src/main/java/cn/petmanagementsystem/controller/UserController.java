@@ -1,10 +1,12 @@
 package cn.petmanagementsystem.controller;
 
+import cn.petmanagementsystem.common.Result;
 import cn.petmanagementsystem.domain.User;
 import cn.petmanagementsystem.domain.common.Pager;
 import cn.petmanagementsystem.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +26,12 @@ public class UserController {
             status = null;
         }
         return userService.getUserList(accountName, status, phone, page, limit);
+    }
+
+    @PostMapping("/deleteUser")
+    public Result deleteUser(@RequestParam(required = false) Integer userId) {
+        userService.deleteUser(userId);
+        return Result.success("删除成功!");
     }
 
 }

@@ -100,11 +100,15 @@
             <input type="text" id="accountName" name="accountName" placeholder="用户名" required>
         </div>
         <div class="form-group">
+            <input type="text" id="address" name="address" placeholder="用户地址" required>
+        </div>
+        <div class="form-group">
             <input type="tel" id="phone" name="phone" pattern="[0-9]{11}" placeholder="请输入11位手机号" required>
         </div>
         <div class="form-group">
             <input type="password" id="password" name="password" placeholder="密码" required>
         </div>
+
         <div class="form-group">
             <button type="submit">注册</button>
         </div>
@@ -114,6 +118,24 @@
     </form>
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 检查是否有注册成功的消息
+        const successMsg = '<c:out value="${successMsg}" />';
+        if (successMsg) {
+            // 显示成功提示框
+            const alertBox = document.createElement('div');
+            alertBox.className = 'alert';
+            alertBox.innerHTML = `<p>${successMsg}</p>`;
+            document.body.appendChild(alertBox);
+            alertBox.style.display = 'block';
 
+            // 在2秒后跳转到登录页面
+            setTimeout(function() {
+                window.location.href = '<c:out value="${pageContext.request.contextPath}/login" />';
+            }, 2000);
+        }
+    });
+</script>
 </body>
 </html>

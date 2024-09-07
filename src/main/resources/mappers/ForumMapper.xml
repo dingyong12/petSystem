@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.petmanagementsystem.mapper.ForumMapper">
+    <insert id="addForum">
+        INSERT INTO forum (title, content,forum_pic, user_id) values (#{title}, #{content},#{forumPic}, #{userId})
+    </insert>
+
+
+    <select id="getForumList" resultType="cn.petmanagementsystem.domain.Forum">
+        select f.*,u.name as userName
+        from forum f
+                 left join user u on f.user_id = u.id
+    </select>
+    <select id="getForumDetail" resultType="cn.petmanagementsystem.domain.Forum">
+        select *
+        from forum
+        where id = #{id}
+    </select>
+</mapper>

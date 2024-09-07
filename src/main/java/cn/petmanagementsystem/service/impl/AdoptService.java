@@ -5,6 +5,7 @@ import cn.petmanagementsystem.domain.common.Pager;
 import cn.petmanagementsystem.domain.vo.AdoptListVo;
 import cn.petmanagementsystem.domain.vo.AdoptPetVo;
 import cn.petmanagementsystem.mapper.AdoptMapper;
+import cn.petmanagementsystem.mapper.PetMapper;
 import cn.petmanagementsystem.service.IAdoptService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -18,6 +19,9 @@ public class AdoptService implements IAdoptService {
 
     @Autowired
     private AdoptMapper adoptMapper;
+
+    @Autowired
+    private PetMapper petMapper;
 
 
     @Override
@@ -45,7 +49,17 @@ public class AdoptService implements IAdoptService {
     }
 
     @Override
-    public Integer adoptPet(AdoptPetVo vo) {
-        return adoptMapper.adoptPet(vo);
+    public void adoptPet(AdoptPetVo vo) {
+         adoptMapper.adoptPet(vo);
+         petMapper.updateStatus(vo.getPetId(), 1);
+    }
+
+    @Override
+    public void handleApproval(Integer id,Integer petId, Integer action) {
+        adoptMapper.handleApproval(id, action);
+        if (action == 2) {
+            // 审批未通过，宠物状态改为待领养
+            petMapper.updateStatus(petId, 0);
+        }
     }
 }

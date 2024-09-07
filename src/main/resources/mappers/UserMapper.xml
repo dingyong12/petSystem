@@ -5,13 +5,13 @@
 
 <mapper namespace="cn.petmanagementsystem.mapper.UserMapper">
     <insert id="register">
-        insert into user(name,account_name, password,phone)
-        values(#{name},#{accountName},#{password},#{phone})
+        insert into user(name, account_name, password, phone, address)
+        values (#{name}, #{accountName}, #{password}, #{phone}, #{address})
     </insert>
 
     <update id="deleteUser">
         update user
-        set status = 1
+        set `status` = 0
         where id = #{id}
     </update>
 

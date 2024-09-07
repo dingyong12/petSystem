@@ -14,4 +14,6 @@ public interface PetMapper {
     List<Pet> queryPetList(PetVo petVo);
 
     Pet getPetDetail(@Param("id") Integer id);
+
+    void updateStatus(@Param("petId")Integer petId,@Param("status") int status);
 }

@@ -11,6 +11,9 @@
             (name, pet_type_id, picture, adopt_address, gender) value
             (#{name}, #{petTypeId}, #{picture},#{adoptAddress}, #{gender})
     </insert>
+    <update id="updateStatus">
+        update pet set adopt_status = #{status} where id = #{petId}
+    </update>
     <select id="queryPetList" resultType="cn.petmanagementsystem.domain.Pet">
         select p.*,pt.type_name as petTypeName,pt.pet_type  from pet p left join pet_type pt on p.pet_type_id = pt.id
         <where>

@@ -114,7 +114,10 @@
 
 <script type="text/html" id="barDemo">
     <div class="layui-btn-container">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">操作</a>
+        <div class="layui-btn-group">
+            <button class="layui-btn layui-btn-xs layui-btn-normal" lay-event="approve">审批通过</button>
+            <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="reject">审批不通过</button>
+        </div>
     </div>
 </script>
 
@@ -136,15 +139,15 @@
             cellMinWidth: 250, // 调整最小单元格宽度
             page: true,
             cols: [[
-                {field: 'id', fixed: 'left', width: 200, title: 'ID'},
-                {field: 'userName', width: 300, title: '领养人'},
+                {field: 'id', fixed: 'left', width: 100, title: 'ID'},
+                {field: 'userName', width: 100, title: '领养人'},
                 {field: 'phone', width: 150, title: '手机号'},
                 {field: 'petName', width: 100, title: '宠物名称'},
-                {field: 'adoptTime', width: 150, title: '领养时间'},
-                {field: 'adoptMethodStr', width: 150, title: '领养方式'},
-                {field: 'address', width: 450, title: '领养地址'},
-                {field: 'approvalStatusStr', width: 250, title: '审批状态'},
-                {fixed: 'right', title: '操作', width: 250, toolbar: '#barDemo'}
+                {field: 'adoptTime', width: 100, title: '领养时间'},
+                {field: 'adoptMethodStr', width: 100, title: '领养方式'},
+                {field: 'address', width: 300, title: '领养地址'},
+                {field: 'approvalStatusStr', width: 100, title: '审批状态'},
+                {fixed: 'right', title: '操作', width: 100, toolbar: '#barDemo'}
             ]],
             error: function (res, msg) {
                 console.log(res, msg);
@@ -161,6 +164,45 @@
         });
 
         form.val('searchForm', savedData);
+
+        // 监听操作按钮事件
+        table.on('tool(adoptionList)', function (obj) {
+            var data = obj.data; // 获取当前行数据
+            var layEvent = obj.event; // 获取 lay-event 对应的值
+            console.log(data);
+            if (layEvent === 'approve') {
+                // 审批通过操作
+                handleApproval(data.id, data.petId, true);
+            } else if (layEvent === 'reject') {
+                // 审批不通过操作
+                handleApproval(data.id, data.petId, false);
+            }
+        });
+
+        function handleApproval(id, petId, isApproved) {
+            var action = isApproved ? '1' : '2';
+            // 实际的请求 URL 和请求参数根据需要修改
+            fetch('/handleApproval', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({id: id, petId: petId, action: action})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 200) {
+                        layer.msg('操作成功');
+                        table.reload('adoptionList'); // 重新加载表格数据
+                    } else {
+                        layer.msg('操作失败');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    layer.msg('操作失败');
+                });
+        }
     });
 </script>
 </body>
