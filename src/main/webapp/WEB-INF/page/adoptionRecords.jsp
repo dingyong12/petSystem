@@ -114,10 +114,12 @@
 
 <script type="text/html" id="barDemo">
     <div class="layui-btn-container">
+        {{# if(d.approvalStatus != '1' && d.approvalStatus != '2'){ }}
         <div class="layui-btn-group">
             <button class="layui-btn layui-btn-xs layui-btn-normal" lay-event="approve">审批通过</button>
             <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="reject">审批不通过</button>
         </div>
+        {{# } }}
     </div>
 </script>
 

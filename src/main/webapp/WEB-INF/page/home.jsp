@@ -80,7 +80,7 @@
                         <%=user.getName()%>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">个人信息</a></dd>
+<%--                        <dd><a href="javascript:;">个人信息</a></dd>--%>
                         <dd><a href="logout">登出</a></dd>
                     </dl>
                 </li>

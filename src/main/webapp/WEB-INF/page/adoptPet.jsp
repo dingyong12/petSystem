@@ -141,7 +141,7 @@
                             // 跳转到指定页面并刷新
                             window.parent.location.href = 'petDetail'; // 替换成你想跳转的页面地址
                             window.parent.location.reload(); // 刷新页面
-                        }, 2000); // 2秒后执行
+                        }, 500);
                     } else {
                         layer.msg('提交失败: ' + result.message);
                     }

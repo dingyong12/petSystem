@@ -98,12 +98,10 @@
         /* 确保“已领养”图标在照片的右下角 */
         .adopted-icon {
             position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 50px; /* 根据实际图标的尺寸调整 */
-            height: 50px; /* 根据实际图标的尺寸调整 */
-            z-index: 1; /* 确保它在照片之上显示 */
-            opacity: 0.8; /* 调整透明度，不完全遮挡照片 */
+            bottom: 5px;  /* 调整位置 */
+            right: 5px;  /* 调整位置 */
+            z-index: 1;  /* 确保它在照片之上显示 */
+            opacity: 0.8;  /* 调整透明度，不完全遮挡照片 */
         }
 
         .pet-details {
@@ -205,7 +203,7 @@
                         var lis = [];
                         $.each(res.data, function (index, item) {
                             // 根据宠物的状态决定是否显示“已领养”图标
-                            var adoptedIcon = item.adoptStatus == '1' ? '<img class="adopted-icon" src="https://www.pethaven.com.hk/catalog/adoption/icons/adoption-icons/adopted_chi.png" />' : '';
+                            var adoptedIcon = item.adoptStatus == '1' ? '<img class="adopted-icon" style="width: 60px; height:60px" src="https://www.pethaven.com.hk/catalog/adoption/icons/adoption-icons/adopted_chi.png" />' : '';
 
                             lis.push(
                                 '<li data-id="' + item.id + '">' +

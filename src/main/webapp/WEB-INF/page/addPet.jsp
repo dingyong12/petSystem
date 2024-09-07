@@ -100,7 +100,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">自提地址</label>
         <div class="layui-input-block">
-            <textarea name="petAddress" class="layui-textarea"><%= user.getAddress() %></textarea>
+            <textarea name="adoptAddress" class="layui-textarea"><%= user.getAddress() %></textarea>
         </div>
     </div>
     <div class="layui-form-item">

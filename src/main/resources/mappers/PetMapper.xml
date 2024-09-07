@@ -8,8 +8,8 @@
 
     <insert id="addPet">
         insert into pet
-            (name, pet_type_id, picture, adopt_address, gender) value
-            (#{name}, #{petTypeId}, #{picture},#{adoptAddress}, #{gender})
+            (name, pet_type_id, picture, adopt_address, gender,pet_description) value
+            (#{name}, #{petTypeId}, #{picture},#{adoptAddress}, #{gender},#{petDescription})
     </insert>
     <update id="updateStatus">
         update pet set adopt_status = #{status} where id = #{petId}
